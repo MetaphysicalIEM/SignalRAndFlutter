@@ -13,8 +13,7 @@ class SignalR {
 
   static Future<void> initHub() async {
     await connection.start();
-
-    // fix this part
+    print('Starting Hub : ' + url + '/chatHub');
   }
 
   static Future<void> stopHub() async {
@@ -38,10 +37,4 @@ class SignalR {
     connection.invoke('SendMessageToGroup', args: [groupName, userName, text]);
     return text;
   }
-
-  // connection.on('ReceiveMessage', (message) {
-  //   print(message.toString());
-  // });
-
-  //await connection.invoke('SendMessage', args: ['Bob', 'Says hi!']);
 }

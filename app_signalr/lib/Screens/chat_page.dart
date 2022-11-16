@@ -24,11 +24,11 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   void initState() {
-    widget.talkToEveryone ? runTalk() : runTalkGroup();
+    widget.talkToEveryone ? _runEveryoneRoom() : _runGroupRoom();
     super.initState();
   }
 
-  void runTalk() {
+  void _runEveryoneRoom() {
     SignalR.connection.on('MessageForEveryone', (arguments) {
       print(arguments);
       print('everyone talk');
@@ -42,7 +42,7 @@ class _ChatPageState extends State<ChatPage> {
     });
   }
 
-  void runTalkGroup() {
+  void _runGroupRoom() {
     SignalR.connection.on('SendMessageToGroup', (arguments) {
       print(arguments);
       print('group talk');
@@ -56,6 +56,15 @@ class _ChatPageState extends State<ChatPage> {
     });
   }
 
+  void _sendMessage() {
+    widget.talkToEveryone
+        ? SignalR.sendMessageToEveryone(
+            widget.userName, _messageEditingController.text)
+        : SignalR.sendMessageToGroup(
+            widget.groupName, widget.userName, _messageEditingController.text);
+    _messageEditingController.clear();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,11 +72,11 @@ class _ChatPageState extends State<ChatPage> {
         backgroundColor: Colors.blue,
         title: Text(
           widget.talkToEveryone ? 'General Chat' : widget.groupName,
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white),
         ),
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back_ios,
             color: Colors.white,
           ),
@@ -75,67 +84,59 @@ class _ChatPageState extends State<ChatPage> {
             if (!widget.talkToEveryone) {
               SignalR.removeFromGroup(widget.groupName);
             }
-            Future.delayed(Duration(milliseconds: 700), () {
+            Future.delayed(const Duration(milliseconds: 700), () {
               Navigator.pop(context);
             });
           },
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SingleChildScrollView(
-              child: Container(
-                height: 500,
-                width: double.infinity,
-                color: Colors.black,
-                child: Column(
-                  children: [
-                    for (int i = 0; i < _listMessage.length; i++)
-                      Text(
-                        _listMessage[i],
-                        style: TextStyle(
-                            color: Colors.white, fontStyle: FontStyle.italic),
-                      )
-                  ],
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: TextField(
-                textAlign: TextAlign.center,
-                controller: _messageEditingController,
-                cursorColor: Colors.blue,
-                style: TextStyle(color: Colors.black),
-                decoration: InputDecoration(
-                    suffixIcon: InkWell(
-                        onTap: () {
-                          print('send');
-                          sendMessage();
-                        },
-                        child: Icon(Icons.send)),
-                    border: OutlineInputBorder(),
-                    hintText: 'Your message',
-                    hintStyle: TextStyle(color: Colors.black)),
-              ),
-            )
-          ],
-        ),
-      ),
+      body: SingleChildScrollView(child: _buildScreen()),
     );
   }
 
-  Future<void> sendMessage() async {
-    if (widget.talkToEveryone) {
-      SignalR.sendMessageToEveryone(
-          widget.userName, _messageEditingController.text);
-    } else {
-      SignalR.sendMessageToGroup(
-          widget.groupName, widget.userName, _messageEditingController.text);
-    }
-    _messageEditingController.clear();
+  // Change for ListView Items...
+  Widget _buildScreen() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SingleChildScrollView(
+          child: Container(
+            height: 500,
+            width: double.infinity,
+            color: Colors.black,
+            child: Column(
+              children: [
+                for (int i = 0; i < _listMessage.length; i++)
+                  Text(
+                    _listMessage[i],
+                    style: const TextStyle(
+                        color: Colors.white, fontStyle: FontStyle.italic),
+                  ),
+              ],
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: TextField(
+            textAlign: TextAlign.center,
+            controller: _messageEditingController,
+            cursorColor: Colors.blue,
+            style: const TextStyle(color: Colors.black),
+            decoration: InputDecoration(
+                suffixIcon: InkWell(
+                    onTap: () {
+                      print('Send message');
+                      _sendMessage();
+                    },
+                    child: const Icon(Icons.send)),
+                border: const OutlineInputBorder(),
+                hintText: 'Your message',
+                hintStyle: const TextStyle(color: Colors.black)),
+          ),
+        )
+      ],
+    );
   }
 }

@@ -9,7 +9,7 @@ void main() {
     DeviceOrientation.portraitDown,
   ]);
   SignalR.initHub();
-  return runApp(MaterialApp(
+  return runApp(const MaterialApp(
     home: MenuPage(),
   ));
 }

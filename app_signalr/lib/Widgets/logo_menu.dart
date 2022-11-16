@@ -10,8 +10,8 @@ class LogoMenu extends StatelessWidget {
       width: 200,
       decoration: BoxDecoration(
         border: Border.all(width: 1.0),
-        borderRadius: BorderRadius.all(Radius.circular(20)),
-        image: DecorationImage(
+        borderRadius: const BorderRadius.all(Radius.circular(20)),
+        image: const DecorationImage(
             image: AssetImage('assets/images/SignalR-Logopng-1.png'),
             fit: BoxFit.cover),
       ),
