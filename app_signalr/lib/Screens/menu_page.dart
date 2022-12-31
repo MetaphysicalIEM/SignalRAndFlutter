@@ -12,23 +12,15 @@ class MenuPage extends StatefulWidget {
 
 class _MenuPageState extends State<MenuPage> {
   final TextEditingController _controllerName = TextEditingController();
-  final TextEditingController _controllerGroup = TextEditingController();
+  final TextEditingController _controllerGroup =
+      TextEditingController(text: 'NONE');
 
   // For animation + next page
-  bool _talkToEveryone = false;
-  bool _talkToGroup = false;
-
-  bool _confirmData() {
-    return ((_controllerGroup.text.isNotEmpty &&
-                _controllerName.text.isNotEmpty) &&
-            (_talkToEveryone || _talkToGroup))
-        ? true
-        : false;
-  }
+  bool _talkToEveryone = true;
 
   void _validateData() {
-    if (_confirmData()) {
-      if (_talkToGroup) {
+    if (_controllerName.text.isNotEmpty && _controllerGroup.text.isNotEmpty) {
+      if (!_talkToEveryone) {
         SignalR.joinGroup(_controllerGroup.text);
       }
       Navigator.push(
@@ -42,7 +34,17 @@ class _MenuPageState extends State<MenuPage> {
         ),
       );
     } else {
-      print('error data');
+      final snackBar = SnackBar(
+        content: const Text('Error data'),
+        action: SnackBarAction(
+          label: 'Undo',
+          onPressed: () {
+            // Some code to undo the change.
+          },
+        ),
+      );
+      debugPrint('Error data');
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
   }
 
@@ -115,14 +117,9 @@ class _MenuPageState extends State<MenuPage> {
   Widget _buildEveryoneConfirmButton() {
     return TextButton.icon(
       onPressed: () {
-        if (_talkToEveryone == false) {
+        if (!_talkToEveryone) {
           setState(() {
             _talkToEveryone = true;
-            _talkToGroup = false;
-          });
-        } else {
-          setState(() {
-            _talkToEveryone = false;
           });
         }
       },
@@ -141,25 +138,20 @@ class _MenuPageState extends State<MenuPage> {
   Widget _buildGroupConfirmButton() {
     return TextButton.icon(
       onPressed: () {
-        if (_talkToGroup == false) {
+        if (_talkToEveryone) {
           setState(() {
-            _talkToGroup = true;
             _talkToEveryone = false;
-          });
-        } else {
-          setState(() {
-            _talkToGroup = false;
           });
         }
       },
       style: TextButton.styleFrom(backgroundColor: Colors.black),
       icon: Icon(
         Icons.chat,
-        color: _talkToGroup ? Colors.green : Colors.blue,
+        color: !_talkToEveryone ? Colors.green : Colors.blue,
       ),
       label: Text(
         'G.R want to talk',
-        style: TextStyle(color: _talkToGroup ? Colors.green : Colors.blue),
+        style: TextStyle(color: !_talkToEveryone ? Colors.green : Colors.blue),
       ),
     );
   }

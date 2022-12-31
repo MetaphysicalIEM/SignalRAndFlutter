@@ -1,20 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\c#\\WebFlutterSignalR\\WebFlutterSignalR\\WebFlutterSignalR.csproj": {}
+    "Z:\\YoutubeTutorial\\SignalRAndFlutter\\WebFlutterSignalR\\WebFlutterSignalR\\WebFlutterSignalR.csproj": {}
   },
   "projects": {
-    "D:\\c#\\WebFlutterSignalR\\WebFlutterSignalR\\WebFlutterSignalR.csproj": {
+    "Z:\\YoutubeTutorial\\SignalRAndFlutter\\WebFlutterSignalR\\WebFlutterSignalR\\WebFlutterSignalR.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\c#\\WebFlutterSignalR\\WebFlutterSignalR\\WebFlutterSignalR.csproj",
+        "projectUniqueName": "Z:\\YoutubeTutorial\\SignalRAndFlutter\\WebFlutterSignalR\\WebFlutterSignalR\\WebFlutterSignalR.csproj",
         "projectName": "WebFlutterSignalR",
-        "projectPath": "D:\\c#\\WebFlutterSignalR\\WebFlutterSignalR\\WebFlutterSignalR.csproj",
-        "packagesPath": "C:\\Users\\Geese\\.nuget\\packages\\",
-        "outputPath": "D:\\c#\\WebFlutterSignalR\\WebFlutterSignalR\\obj\\",
+        "projectPath": "Z:\\YoutubeTutorial\\SignalRAndFlutter\\WebFlutterSignalR\\WebFlutterSignalR\\WebFlutterSignalR.csproj",
+        "packagesPath": "C:\\Users\\Sambasha\\.nuget\\packages\\",
+        "outputPath": "Z:\\YoutubeTutorial\\SignalRAndFlutter\\WebFlutterSignalR\\WebFlutterSignalR\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Geese\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Sambasha\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -55,7 +58,8 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -67,7 +71,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.203\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }

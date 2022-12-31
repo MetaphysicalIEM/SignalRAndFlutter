@@ -6,7 +6,7 @@ namespace WebFlutterSignalR.Hubs
     {
         public async Task SendMessageToEveryone(string userName, string message)
         {
-            await Clients.All.SendAsync("MessageForEveryone", userName, message);
+            await Clients.All.SendAsync("ReceiveMessageFromEveryone", userName, message);
         }
 
         public async Task JoinGroup(string groupName)
@@ -21,7 +21,7 @@ namespace WebFlutterSignalR.Hubs
 
         public async Task SendMessageToGroup(string groupName, string userName, string message)
         {
-           await Clients.Group(groupName).SendAsync("SendMessageToGroup",  $"{userName}", $"{message}");
+           await Clients.Group(groupName).SendAsync("ReceiveMessageFromGroup",  $"{userName}", $"{message}");
         }
     }
 }

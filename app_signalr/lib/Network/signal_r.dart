@@ -1,8 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:signalr_core/signalr_core.dart';
 
 class SignalR {
-  static const String url =
-      'https://85de-2a00-23c7-c98c-e01-5023-db51-de42-f576.ngrok.io';
+  // https://6117-85-68-26-122.ngrok.io -> http://localhost:5241
+  static const String url = 'your api via ngrok or public one';
+
   static final HubConnection connection = HubConnectionBuilder()
       .withUrl(
           url + '/chatHub',
@@ -12,13 +14,16 @@ class SignalR {
       .build();
 
   static Future<void> initHub() async {
+    debugPrint('Starting Hub : ' + url + '/chatHub');
     await connection.start();
-    print('Starting Hub : ' + url + '/chatHub');
   }
 
   static Future<void> stopHub() async {
+    debugPrint('Stopping Hub : ' + url + '/chatHub');
     await connection.stop();
   }
+
+  // GROUP PART and EVERYONE PART
 
   static Future<void> joinGroup(String groupName) async {
     connection.invoke('JoinGroup', args: [groupName]);

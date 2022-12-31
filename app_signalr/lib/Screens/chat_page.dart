@@ -29,7 +29,7 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   void _runEveryoneRoom() {
-    SignalR.connection.on('MessageForEveryone', (arguments) {
+    SignalR.connection.on('ReceiveMessageFromEveryone', (arguments) {
       print(arguments);
       print('everyone talk');
       try {
@@ -43,7 +43,7 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   void _runGroupRoom() {
-    SignalR.connection.on('SendMessageToGroup', (arguments) {
+    SignalR.connection.on('ReceiveMessageFromGroup', (arguments) {
       print(arguments);
       print('group talk');
       try {
@@ -94,46 +94,47 @@ class _ChatPageState extends State<ChatPage> {
     );
   }
 
-  // Change for ListView Items...
   Widget _buildScreen() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        SingleChildScrollView(
-          child: Container(
-            height: 500,
-            width: double.infinity,
-            color: Colors.black,
-            child: Column(
-              children: [
-                for (int i = 0; i < _listMessage.length; i++)
-                  Text(
-                    _listMessage[i],
+        Container(
+          color: Colors.black,
+          width: double.infinity,
+          height: 650,
+          child: ListView.builder(
+            itemCount: _listMessage.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Padding(
+                padding: const EdgeInsets.only(top: 5, bottom: 5, left: 5),
+                child: Text(_listMessage[index],
                     style: const TextStyle(
-                        color: Colors.white, fontStyle: FontStyle.italic),
-                  ),
-              ],
-            ),
+                        color: Colors.white, fontStyle: FontStyle.italic)),
+              );
+            },
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: TextField(
-            textAlign: TextAlign.center,
-            controller: _messageEditingController,
-            cursorColor: Colors.blue,
-            style: const TextStyle(color: Colors.black),
-            decoration: InputDecoration(
-                suffixIcon: InkWell(
-                    onTap: () {
-                      print('Send message');
-                      _sendMessage();
-                    },
-                    child: const Icon(Icons.send)),
-                border: const OutlineInputBorder(),
-                hintText: 'Your message',
-                hintStyle: const TextStyle(color: Colors.black)),
+        SizedBox(
+          width: double.infinity,
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: TextField(
+              textAlign: TextAlign.center,
+              controller: _messageEditingController,
+              cursorColor: Colors.blue,
+              style: const TextStyle(color: Colors.black),
+              decoration: InputDecoration(
+                  suffixIcon: InkWell(
+                      onTap: () {
+                        print('Send message');
+                        _sendMessage();
+                      },
+                      child: const Icon(Icons.send)),
+                  border: const OutlineInputBorder(),
+                  hintText: 'Your message',
+                  hintStyle: const TextStyle(color: Colors.black)),
+            ),
           ),
         )
       ],
